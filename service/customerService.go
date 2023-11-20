@@ -7,7 +7,7 @@ import (
 
 // Primary port
 type CustomerService interface {
-	GetAllCustomer() ([]domain.Customer, error)
+	GetAllCustomer() ([]domain.Customer, *errs.AppError)
 	GetCustomer(string) (*domain.Customer, *errs.AppError)
 }
 
@@ -17,7 +17,7 @@ type DefaultCustomerService struct {
 }
 
 // This connects the Primary port (interface) to the Secondary port
-func (s DefaultCustomerService) GetAllCustomer() ([]domain.Customer, error) {
+func (s DefaultCustomerService) GetAllCustomer() ([]domain.Customer, *errs.AppError) {
 	return s.repo.FindAll()
 }
 

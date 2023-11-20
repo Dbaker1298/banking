@@ -2,7 +2,6 @@ package app
 
 import (
 	"encoding/json"
-	"encoding/xml"
 	"net/http"
 
 	"github.com/Dbaker1298/banking/service"
@@ -19,15 +18,12 @@ func (ch *CustomerHandlers) getAllCustomers(w http.ResponseWriter, r *http.Reque
 	// 	{Name: "Jane Doe", City: "Chicago", Zipcode: "12345"},
 	// }
 
-	customers, _ := ch.service.GetAllCustomer()
-
-	if r.Header.Get("Content-Type") == "application/xml" {
-		w.Header().Add("Content-Type", "application/xml")
-		xml.NewEncoder(w).Encode(customers)
+	customers, err := ch.service.GetAllCustomer()
+	if err != nil {
+		writeResponse(w, err.Code, err.AsMessage())
 		return
 	} else {
-		w.Header().Add("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(customers)
+		writeResponse(w, http.StatusOK, customers)
 		return
 	}
 }

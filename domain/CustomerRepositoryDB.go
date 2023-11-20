@@ -14,13 +14,13 @@ type CustomerRepositoryDB struct {
 }
 
 // From the Interface within the domain package, customer.go:
-func (d CustomerRepositoryDB) FindAll() ([]Customer, error) {
+func (d CustomerRepositoryDB) FindAll() ([]Customer, *errs.AppError) {
 	findAllSql := "SELECT customer_id, name, city, zipcode, date_of_birth, status FROM customers"
 
 	rows, err := d.client.Query(findAllSql)
 	if err != nil {
 		log.Printf("Error while querying customer table: %v", err)
-		return nil, err
+		return nil, errs.NewUnexpectedError("Unexpected database error")
 	}
 
 	customers := make([]Customer, 0)
@@ -29,7 +29,7 @@ func (d CustomerRepositoryDB) FindAll() ([]Customer, error) {
 		err := rows.Scan(&c.Id, &c.Name, &c.City, &c.Zipcode, &c.DateOfBirth, &c.Status)
 		if err != nil {
 			log.Printf("Error while scanning customer table: %v", err)
-			return nil, err
+			return nil, errs.NewUnexpectedError("Unexpected database error")
 		}
 		customers = append(customers, c)
 
