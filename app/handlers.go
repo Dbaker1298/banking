@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/Dbaker1298/banking/service"
+	"github.com/gorilla/mux"
 )
 
 // REST Handlers
@@ -34,6 +35,32 @@ func (ch *CustomerHandlers) getAllCustomers(w http.ResponseWriter, r *http.Reque
 	} else {
 		w.Header().Add("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(customers)
+		return
+	}
+}
+
+func (ch *CustomerHandlers) getCustomer(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	customerId := vars["customer_id"]
+
+	// customer := Customer{Name: "John Doe", City: "Chicago", Zipcode: "12345"}
+	// fmt.Fprintf(w, "Customer ID: %s", customerId)
+	// json.NewEncoder(w).Encode(customer)
+
+	customer, err := ch.service.GetCustomer(customerId)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	if r.Header.Get("Content-Type") == "application/xml" {
+		w.Header().Add("Content-Type", "application/xml")
+		xml.NewEncoder(w).Encode(customer)
+		return
+	} else {
+		w.Header().Add("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(customer)
 		return
 	}
 }
