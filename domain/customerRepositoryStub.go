@@ -1,5 +1,6 @@
 package domain
 
+// Mock Adapter	
 type CustomerRepositoryStub struct {
 	customers []Customer
 }
