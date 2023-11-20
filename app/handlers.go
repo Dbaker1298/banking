@@ -49,8 +49,8 @@ func (ch *CustomerHandlers) getCustomer(w http.ResponseWriter, r *http.Request) 
 
 	customer, err := ch.service.GetCustomer(customerId)
 	if err != nil {
-		w.WriteHeader(http.StatusNotFound)
-		w.Write([]byte(err.Error()))
+		w.WriteHeader(err.Code)
+		w.Write([]byte(err.Message))
 		return
 	}
 

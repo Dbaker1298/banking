@@ -1,11 +1,14 @@
 package service
 
-import "github.com/Dbaker1298/banking/domain"
+import (
+	"github.com/Dbaker1298/banking/app/errs"
+	"github.com/Dbaker1298/banking/domain"
+)
 
 // Primary port
 type CustomerService interface {
 	GetAllCustomer() ([]domain.Customer, error)
-	GetCustomer(string) (*domain.Customer, error)
+	GetCustomer(string) (*domain.Customer, *errs.AppError)
 }
 
 // Business logic
@@ -19,7 +22,7 @@ func (s DefaultCustomerService) GetAllCustomer() ([]domain.Customer, error) {
 }
 
 // This connects the Primary port (interface) to the Secondary port
-func (s DefaultCustomerService) GetCustomer(id string) (*domain.Customer, error) {
+func (s DefaultCustomerService) GetCustomer(id string) (*domain.Customer, *errs.AppError) {
 	return s.repo.ById(id)
 }
 
