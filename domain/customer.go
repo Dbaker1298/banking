@@ -9,8 +9,9 @@ type Customer struct {
 	Status string
 }
 
-// Secondary port, the Repository Interface
+// Secondary port, the Repository Interface; Adapter = CustomerRepositoryDB
 type CustomerRepository interface {
 	FindAll() ([]Customer, error)
+	ById(string) (*Customer, error)
 }
 

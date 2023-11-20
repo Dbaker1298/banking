@@ -12,6 +12,7 @@ type CustomerRepositoryDB struct {
 	client *sql.DB
 }
 
+// From the Interface within the domain package, customer.go:
 func (d CustomerRepositoryDB) FindAll() ([]Customer, error) {
 	findAllSql := "SELECT customer_id, name, city, zipcode, date_of_birth, status FROM customers"
 
@@ -33,6 +34,22 @@ func (d CustomerRepositoryDB) FindAll() ([]Customer, error) {
 
 	}
 	return customers, nil
+}
+
+// From the Interface within the domain package, customer.go:
+func (d CustomerRepositoryDB) ById(id string) (*Customer, error) {
+	customerSql := "SELECT customer_id, name, city, zipcode, date_of_birth, status FROM customers WHERE customer_id = ?"
+
+	row := d.client.QueryRow(customerSql, id)
+
+	var c Customer
+	err := row.Scan(&c.Id, &c.Name, &c.City, &c.Zipcode, &c.DateOfBirth, &c.Status)
+	if err != nil {
+		log.Printf("Error while scanning customer table: %v", err)
+		return nil, err
+	}
+
+	return &c, nil
 }
 
 func NewCustomerRepositoryDB() CustomerRepositoryDB {
