@@ -2,10 +2,10 @@ package domain
 
 type Customer struct {	
 	Id string 
-	Namme string
+	Name string
 	City string
 	Zipcode string
-	DateofBirth string
+	DateOfBirth string
 	Status string
 }
 
