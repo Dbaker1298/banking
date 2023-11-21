@@ -9,9 +9,30 @@ import (
 	"github.com/Dbaker1298/banking/domain"
 	"github.com/Dbaker1298/banking/service"
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 )
 
+func sanityCheck() {
+	if os.Getenv("SERVER_ADDRESS") == "" ||
+		os.Getenv("SERVER_PORT") == "" ||
+		os.Getenv("DB_USER") == "" ||
+		os.Getenv("DB_PASSWD") == "" ||
+		os.Getenv("DB_ADDR") == "" ||
+		os.Getenv("DB_PORT") == "" ||
+		os.Getenv("DB_NAME") == "" {
+		log.Fatal("Environment variable(s) not defined. Check your .env file to set the environment variables")
+	}
+}
+
 func Start() {
+	// Load env variables
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	sanityCheck()
+
 	router := mux.NewRouter()
 
 	// wiring
