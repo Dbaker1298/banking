@@ -18,6 +18,7 @@ func init() {
 	encoderConfig.CallerKey = "caller"
 	encoderConfig.MessageKey = "message"
 	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
+	encoderConfig.StacktraceKey = ""
 	config.EncoderConfig = encoderConfig
 
 	log, err = config.Build(zap.AddCallerSkip(1))
@@ -26,6 +27,15 @@ func init() {
 	}
 }
 
+// Helper functions for logging
 func Info(message string, fields ...zap.Field) {
 	log.Info(message, fields...)
+}
+
+func Debug(message string, fields ...zap.Field) {
+	log.Debug(message, fields...)
+}
+
+func Error(message string, fields ...zap.Field) {
+	log.Error(message, fields...)
 }
