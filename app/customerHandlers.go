@@ -29,10 +29,7 @@ func (ch *CustomerHandlers) getCustomer(w http.ResponseWriter, r *http.Request) 
 	vars := mux.Vars(r)
 	customerId := vars["customer_id"]
 
-	// customer := Customer{Name: "John Doe", City: "Chicago", Zipcode: "12345"}
-	// fmt.Fprintf(w, "Customer ID: %s", customerId)
-	// json.NewEncoder(w).Encode(customer)
-
+	// We are now receiving this customer object as a DTO (Data Transfer Object)
 	customer, err := ch.service.GetCustomer(customerId)
 	if err != nil {
 		writeResponse(w, err.Code, err.AsMessage())
