@@ -13,6 +13,7 @@ type Customer struct {
 
 // Secondary port, the Repository Interface; Adapter = CustomerRepositoryDB
 type CustomerRepository interface {
-	FindAll() ([]Customer, *errs.AppError)
+	// status == 1 status == 0 status == ""
+	FindAll(status string) ([]Customer, *errs.AppError)
 	ById(string) (*Customer, *errs.AppError)
 }
