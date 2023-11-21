@@ -1,8 +1,10 @@
 package app
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/Dbaker1298/banking/domain"
 	"github.com/Dbaker1298/banking/service"
@@ -20,5 +22,7 @@ func Start() {
 	router.HandleFunc("/customers/{customer_id:[0-9]+}", ch.getCustomer).Methods(http.MethodGet)
 
 	// start the server
-	log.Fatal(http.ListenAndServe(":8000", router))
+	address := os.Getenv("SERVER_ADDRESS")
+	port := os.Getenv("SERVER_PORT")
+	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%s", address, port), router))
 }
