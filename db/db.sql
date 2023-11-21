@@ -25,7 +25,7 @@ CREATE TABLE `customers` (
     `customer_id` int(11) NOT NULL,
     `opening_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `account_type` varchar(10) NOT NULL,
-    `pin` varchar(10) NOT NULL,
+    `amount` decimal(10,2) NOT NULL,
     `status` tinyint(4) NOT NULL DEFAULT '1',
     PRIMARY KEY (`account_id`),
     KEY `accounts_FK` (`customer_id`),
@@ -33,11 +33,11 @@ CREATE TABLE `customers` (
     ) ENGINE=InnoDB AUTO_INCREMENT=95476 DEFAULT CHARSET=utf8;
 
     INSERT INTO `accounts` VALUES
-    (95471,2001,'2018-01-01 00:00:00','savings','1234',1),
-    (95472,2002,'2018-01-01 00:00:00','savings','1342',1),
-    (95473,2003,'2018-01-01 00:00:00','checking','2234',1),
-    (95474,2004,'2018-01-01 00:00:00','savings','1299',1),
-    (95475,2005,'2018-01-01 00:00:00','checking','1264',0);
+    (95471,2001,'2018-01-01 00:00:00','savings','6823',1),
+    (95472,2002,'2018-01-01 00:00:00','savings','7129',1),
+    (95473,2003,'2018-01-01 00:00:00','checking','5992',1),
+    (95474,2004,'2018-01-01 00:00:00','savings','9581',1),
+    (95475,2005,'2018-01-01 00:00:00','checking','6330',0);
 
     DROP TABLE IF EXISTS `transactions`;
 
