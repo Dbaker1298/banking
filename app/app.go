@@ -16,14 +16,19 @@ import (
 )
 
 func sanityCheck() {
-	if os.Getenv("SERVER_ADDRESS") == "" ||
-		os.Getenv("SERVER_PORT") == "" ||
-		os.Getenv("DB_USER") == "" ||
-		os.Getenv("DB_PASSWD") == "" ||
-		os.Getenv("DB_ADDR") == "" ||
-		os.Getenv("DB_PORT") == "" ||
-		os.Getenv("DB_NAME") == "" {
-		log.Fatal("Environment variable(s) not defined. Check your .env file to set the environment variables")
+	envProps := []string{
+		"SERVER_ADDRESS",
+		"SERVER_PORT",
+		"DB_USER",
+		"DB_PASSWD",
+		"DB_ADDR",
+		"DB_PORT",
+		"DB_NAME",
+	}
+	for _, k := range envProps {
+		if os.Getenv(k) == "" {
+			logger.Fatal(fmt.Sprintf("Environment variable %s not defined. Terminating application...", k))
+		}
 	}
 }
 
