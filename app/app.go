@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/Dbaker1298/banking/domain"
+	"github.com/Dbaker1298/banking/logger"
 	"github.com/Dbaker1298/banking/service"
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
@@ -50,10 +51,12 @@ func Start() {
 	router.HandleFunc("/customers", ch.getAllCustomers).Methods(http.MethodGet)
 	router.HandleFunc("/customers/{customer_id:[0-9]+}", ch.getCustomer).Methods(http.MethodGet)
 	router.HandleFunc("/customers/{customer_id:[0-9]+}/account", ah.NewAccount).Methods(http.MethodPost)
+	router.HandleFunc("/customers/{customer_id:[0-9]+}/account/{account_id:[0-9]+}", ah.MakeTransaction).Methods(http.MethodPost)
 
 	// start the server
 	address := os.Getenv("SERVER_ADDRESS")
 	port := os.Getenv("SERVER_PORT")
+	logger.Info((fmt.Sprintf("Starting the application on %s:%s", address, port)))
 	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%s", address, port), router))
 }
 
